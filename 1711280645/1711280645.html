@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js Sketch</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 2px solid greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let backgroundImage;
+        let wordObjects = [];
+
+        function preload() {
+            backgroundImage = loadImage('12-A-layer-1.jpg');
+        }
+
+        function setup() {
+            createCanvas(1080, 1080);
+            background(backgroundImage);
+            frameRate(60);
+            // Your setup code here
+        }
+
+        function draw() {
+            if (random(1) < 0.2) {
+                let randomWord = getRandomWord();
+                let x = random(width);
+                let y = random(height);
+                let duration = floor(random(60, 300)); // Random duration between 1-5 seconds
+                let grayValue = floor(random(256)); // Generate a random grayscale value
+                let textColor = color(grayValue, grayValue, grayValue, random(255)); // Gray text color with full opacity
+                let fontSize = floor(random(12, 64)); // Random font size between 12 and 64
+                wordObjects.push({ word: randomWord, x, y, duration, textColor, fontSize });
+            }
+
+            // Display and update wordObjects
+            for (let i = wordObjects.length - 1; i >= 0; i--) {
+                let wordObj = wordObjects[i];
+                textSize(wordObj.fontSize); // Use the assigned font size
+                textAlign(CENTER, CENTER);
+                fill(wordObj.textColor); // Use the assigned text color
+                text(wordObj.word, wordObj.x, wordObj.y);
+                wordObj.duration--;
+
+                if (wordObj.duration <= 0) {
+                    wordObjects.splice(i, 1); // Remove the word if its duration has expired
+                }
+            }
+        }
+
+        // Function to get a random word (for demonstration purposes)
+        function getRandomWord() {
+            let words = ["apple", "banana", "cherry", "date", "elderberry", "fig", "grape", "honeydew", "kiwi", "lemon"];
+            return random(words);
+        }
+    </script>
+</body>
+</html>

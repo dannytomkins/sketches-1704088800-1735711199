@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>p5.js Sketch with Dimensional and Lustrous Lines</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+      canvas {
+        border: 2px solid greenyellow;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      let bgImage;
+      let t = 0; // Time variable for noise
+      let lines = []; // Array to store lines
+
+      function preload() {
+        // Replace with your image path or URL
+        bgImage = loadImage('36-C-layer-1.jpg');
+      }
+
+      function setup() {
+        createCanvas(1080, 1080);
+        background(bgImage);
+        noFill();
+        blendMode(BLEND); // Set the blend mode to default (BLEND)
+        colorMode(HSB, 360, 100, 100, 255); // Use HSB mode for more color control
+      }
+
+      function draw() {
+        // Draw the background image with slight transparency to create a fading effect
+        background(bgImage, 5); // Lower transparency for a slower fade effect
+
+        // Generate points using Perlin noise
+        let x1 = width * noise(t + 15);
+        let x2 = width * noise(t + 25);
+        let x3 = width * noise(t + 35);
+        let x4 = width * noise(t + 45);
+        let y1 = height * noise(t + 55);
+        let y2 = height * noise(t + 65);
+        let y3 = height * noise(t + 75);
+        let y4 = height * noise(t + 85);
+
+        // Generate color values for dimension effect
+        let hue = map(noise(t), 0, 1, 0, 360); // Hue varies over time
+        let saturation = 80; // High saturation for vibrant colors
+        let brightness = 80; // High brightness for vibrant colors
+
+        // Add the new line to the lines array with full opacity and calculated color
+        lines.push({
+          x1,
+          y1,
+          x2,
+          y2,
+          x3,
+          y3,
+          x4,
+          y4,
+          hue,
+          saturation,
+          brightness,
+          alpha: 200,
+        });
+
+        // Draw and update all lines in the array
+        for (let i = lines.length - 1; i >= 0; i--) {
+          let l = lines[i];
+
+          // Draw shadow to add depth
+          strokeWeight(4);
+          stroke(0, 0, 0, l.alpha * 0.2); // Dark shadow with slight transparency
+          bezier(
+            l.x1 + 5,
+            l.y1 + 5,
+            l.x2 + 5,
+            l.y2 + 5,
+            l.x3 + 5,
+            l.y3 + 5,
+            l.x4 + 5,
+            l.y4 + 5
+          );
+
+          // Draw main line with dynamic stroke weight
+          strokeWeight(2 + noise(t + i * 10) * 4); // Varying stroke weight
+          stroke(l.hue, l.saturation, l.brightness, l.alpha); // Use HSB values for color
+          bezier(l.x1, l.y1, l.x2, l.y2, l.x3, l.y3, l.x4, l.y4);
+
+          // Draw highlight to simulate luster
+          strokeWeight(1);
+          stroke(l.hue, 20, 100, l.alpha * 0.5); // Light stroke for highlights
+          bezier(
+            l.x1 - 3,
+            l.y1 - 3,
+            l.x2 - 3,
+            l.y2 - 3,
+            l.x3 - 3,
+            l.y3 - 3,
+            l.x4 - 3,
+            l.y4 - 3
+          );
+
+          // Reduce the alpha value more slowly to fade out the line slower
+          l.alpha -= 0.3; // Decrease by a smaller value for slower fading
+
+          // Remove the line if it becomes fully transparent
+          if (l.alpha <= 0) {
+            lines.splice(i, 1);
+          }
+        }
+
+        t += 0.005;
+      }
+    </script>
+  </body>
+</html>

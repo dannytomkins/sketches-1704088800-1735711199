@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKETCHES-1704088800-1735711199</title>
+    <style>
+      body {
+          margin: 0;
+          font-family: "Verdana", sans-serif;
+          background-color: #c0c0c0; /* Classic light gray */
+          color: black;
+      }
+      nav {
+          background-color: #008080; /* Teal color common in 90s UIs */
+          color: white;
+          padding: 10px;
+          text-align: center;
+          border-bottom: 3px solid black;
+      }
+      nav a {
+          color: white;
+          text-decoration: none;
+          margin: 0 10px;
+          padding: 5px 10px;
+          background: #00a2e8; /* Sky blue buttons */
+          border: 2px solid white;
+          border-radius: 3px;
+      }
+      nav a:hover {
+          background: #005b96; /* Darker blue hover */
+      }
+      main {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px;
+          box-shadow: inset 2px 2px 4px #666666, inset -2px -2px 4px #ffffff;
+          border: 3px solid black;
+          background: linear-gradient(90deg, #dcdcdc, #ffffff);
+          margin: 10px auto;
+          width: 90%;
+          border-radius: 5px;
+      }
+      iframe {
+          width: 100%;
+          height: 90vh;
+          border: 3px solid #666;
+          box-shadow: 2px 2px 4px #000000;
+          background-color: white;
+      }
+  </style>
+  
+  
+</head>
+<body>
+    <nav>
+        <a href="#home" onclick="loadSketch('')">SKETCHES-1704088800-1735711199</a>
+        <a href="#1711280645" onclick="loadSketch('1711280645/1711280645.html')">1711280645</a>
+        <a href="#1725794573" onclick="loadSketch('1725794573/1725794573.html')">1725794573</a>
+    </nav>
+    <main>
+        <iframe id="sketchFrame" src="" frameborder="0"></iframe>
+    </main>
+    <script>
+        function loadSketch(url) {
+            const iframe = document.getElementById('sketchFrame');
+            iframe.src = url;
+        }
+    </script>
+</body>
+</html>
